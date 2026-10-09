@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/static/css/style.css?v=1791548216">
+</head>
+<body>
+        <header class="main-header">
+        <nav class="nav">
+            <a href="/" class="nav-link active">Главная</a>
+            <a href="/theory" class="nav-link">Теория</a>
+            <a href="/conditions" class="nav-link">Условия</a>
+            <a href="/metrics-view" class="nav-link">Метрики</a>
+            <a href="/analytics" class="nav-link">Аналитика</a>
+            <a href="/docs" class="nav-link">API</a>
+            <div class="theme-switcher" title="Смена темы">
+                <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')" title="Тёмная">🌙</button>
+                <button class="theme-btn" data-theme="light" onclick="setTheme('light')" title="Светлая">☀️</button>
+                <button class="theme-btn" data-theme="contrast" onclick="setTheme('contrast')" title="Контрастная">◐</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Прогноз грозы · Домодедово</h1>
+        <p class="subtitle">
+            Модель: <strong>K-индекс (K ≥ 22)</strong> · период: 2020–2026 · источник: ERA5 + METAR
+        </p>
+
+        <section class="cards">
+            <div class="card">
+                <h3>POD</h3>
+                <p class="metric-value" id="pod">—</p>
+                <p class="metric-desc">Обнаружение</p>
+            </div>
+            <div class="card">
+                <h3>FAR</h3>
+                <p class="metric-value" id="far">—</p>
+                <p class="metric-desc">Ложные тревоги</p>
+            </div>
+            <div class="card">
+                <h3>CSI</h3>
+                <p class="metric-value" id="csi">—</p>
+                <p class="metric-desc">Баланс</p>
+            </div>
+            <div class="card">
+                <h3>HK</h3>
+                <p class="metric-value" id="hk">—</p>
+                <p class="metric-desc">Пирс-Обухов</p>
+            </div>
+        </section>
+
+        <section class="info">
+            <h2>Сравнение моделей</h2>
+                    <div class="metrics-legend">
+
+                        <div class="legend-title">Расшифровка метрик</div>
+
+                        <div class="legend-grid-metrics">
+
+                            <div class="legend-metric">
+
+                                <div class="lm-code" style="color:#34d399">POD</div>
+
+                                <div class="lm-name">Probability of Detection</div>
+
+                                <div class="lm-desc">Доля обнаруженных гроз. Чем выше — тем лучше.</div>
+
+                            </div>
+
+                            <div class="legend-metric">
+
+                                <div class="lm-code" style="color:#f87171">FAR</div>
+
+                                <div class="lm-name">False Alarm Ratio</div>
+
+                                <div class="lm-desc">Доля ложных тревог. Чем ниже — тем лучше.</div>
+
+                            </div>
+
+                            <div class="legend-metric">
+
+                                <div class="lm-code" style="color:#60a5fa">CSI</div>
+
+                                <div class="lm-name">Critical Success Index</div>
+
+                                <div class="lm-desc">Баланс POD и FAR. Основная метрика.</div>
+
+                            </div>
+
+                            <div class="legend-metric">
+
+                                <div class="lm-code" style="color:#c084fc">HK</div>
+
+                                <div class="lm-name">Hanssen–Kuipers (Пирс–Обухов)</div>
+
+                                <div class="lm-desc">Общая успешность модели: от 0 до 1.</div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+            <table class="models-table">
+                <thead>
+                    <tr>
+                        <th>Модель</th>
+                        <th>POD</th>
+                        <th>FAR</th>
+                        <th>CSI</th>
+                        <th>HK</th>
+                        <th>Прогнозов</th>
+                    </tr>
+                </thead>
+                <tbody id="models-tbody">
+                    <tr><td colspan="6">Загрузка...</td></tr>
+                </tbody>
+            </table>
+            <p style="margin-top:1rem;color:var(--text-secondary);font-size:0.8rem;text-transform:uppercase;letter-spacing:1px">
+                Подробнее: <a href="/metrics-view">все метрики</a> · <a href="/analytics">аналитика по годам</a> · <a href="/theory">теория</a>
+            </p>
+        </section>
+
+        <section class="info">
+            <h2>Матрица ошибок · K-индекс</h2>
+            <table class="confusion">
+                <thead>
+                    <tr><th></th><th>Факт: гроза</th><th>Факт: нет</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Прогноз: гроза</th>
+                        <td id="cm-h" class="cell-hit">—</td>
+                        <td id="cm-f" class="cell-fa">—</td>
+                    </tr>
+                    <tr>
+                        <th>Прогноз: нет</th>
+                        <td id="cm-m" class="cell-miss">—</td>
+                        <td id="cm-c" class="cell-cn">—</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer class="main-footer"><p>Грозпроверка · 2020–2026</p></footer>
+    <script src="/static/js/main.js?v=1791548216"></script>
+</body>
+</html>

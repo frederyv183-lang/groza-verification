@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Метрики моделей — Грозпроверка</title>
+    <link rel="stylesheet" href="/static/css/style.css?v=1791548216">
+</head>
+<body>
+        <header class="main-header">
+        <nav class="nav">
+            <a href="/" class="nav-link">Главная</a>
+            <a href="/theory" class="nav-link">Теория</a>
+            <a href="/conditions" class="nav-link">Условия</a>
+            <a href="/metrics-view" class="nav-link active">Метрики</a>
+            <a href="/analytics" class="nav-link">Аналитика</a>
+            <a href="/docs" class="nav-link">API</a>
+            <div class="theme-switcher" title="Смена темы">
+                <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')" title="Тёмная">🌙</button>
+                <button class="theme-btn" data-theme="light" onclick="setTheme('light')" title="Светлая">☀️</button>
+                <button class="theme-btn" data-theme="contrast" onclick="setTheme('contrast')" title="Контрастная">◐</button>
+            </div>
+        </nav>
+    </header>
+    <main class="container">
+        <h1>Метрики моделей прогноза гроз</h1>
+        <p class="subtitle">Все модели из БД, сортировка по CSI</p>
+
+        <section class="info">
+            <h2>Сводная таблица</h2>
+                    <div class="metrics-legend">
+
+                        <div class="legend-title">Расшифровка метрик</div>
+
+                        <div class="legend-grid-metrics">
+
+                            <div class="legend-metric">
+
+                                <div class="lm-code" style="color:#34d399">POD</div>
+
+                                <div class="lm-name">Probability of Detection</div>
+
+                                <div class="lm-desc">Доля обнаруженных гроз. Чем выше — тем лучше.</div>
+
+                            </div>
+
+                            <div class="legend-metric">
+
+                                <div class="lm-code" style="color:#f87171">FAR</div>
+
+                                <div class="lm-name">False Alarm Ratio</div>
+
+                                <div class="lm-desc">Доля ложных тревог. Чем ниже — тем лучше.</div>
+
+                            </div>
+
+                            <div class="legend-metric">
+
+                                <div class="lm-code" style="color:#60a5fa">CSI</div>
+
+                                <div class="lm-name">Critical Success Index</div>
+
+                                <div class="lm-desc">Баланс POD и FAR. Основная метрика.</div>
+
+                            </div>
+
+                            <div class="legend-metric">
+
+                                <div class="lm-code" style="color:#c084fc">HK</div>
+
+                                <div class="lm-name">Hanssen–Kuipers (Пирс–Обухов)</div>
+
+                                <div class="lm-desc">Общая успешность модели: от 0 до 1.</div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+            <table class="models-table">
+                <thead>
+                    <tr>
+                        <th>Модель</th>
+                        <th>POD</th>
+                        <th>FAR</th>
+                        <th>CSI</th>
+                        <th>HK</th>
+                        <th>Прогнозов</th>
+                        <th>С грозой</th>
+                    </tr>
+                </thead>
+                <tbody id="models-full-tbody">
+                    <tr><td colspan="7">Загрузка...</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="info">
+            <h2>Матрицы ошибок (2024)</h2>
+            <div id="confusion-container"><p>Загрузка...</p></div>
+        </section>
+    </main>
+    <footer class="main-footer"><p>Грозпроверка · 2020–2026</p></footer>
+
+    <script>
+        const API = "/api";
+        const LABELS = {
+            "k_index_v1": "K-индекс (K ≥ 22)",
+            "k_strict_v1": "K-индекс строгий (K ≥ 25)",
+            "faust_v1": "Метод Фауста (T_v > 0)",
+            "k_and_faust": "K + Фауст (K ≥ 22 и T_v > 0)",
+        };
+
+        async function load() {
+            try {
+                const r = await fetch(`${API}/metrics/models`);
+                const data = await r.json();
+                const tbody = document.getElementById("models-full-tbody");
+                const sorted = data.models.sort((a, b) =>
+                    (b.metrics?.CSI ?? 0) - (a.metrics?.CSI ?? 0));
+
+                tbody.innerHTML = sorted.map(m => `
+                    <tr>
+                        <td><strong>${LABELS[m.model] || m.model}</strong><br>
+                            <small style="color:var(--text-secondary);font-size:0.75em">${m.model}</small></td>
+                        <td>${m.metrics?.POD?.toFixed(3) ?? "—"}</td>
+                        <td>${m.metrics?.FAR?.toFixed(3) ?? "—"}</td>
+                        <td>${m.metrics?.CSI?.toFixed(3) ?? "—"}</td>
+                        <td>${m.metrics?.HK?.toFixed(3)  ?? "—"}</td>
+                        <td>${m.n_forecasts ?? "—"}</td>
+                        <td>${m.n_forecasts_groz ?? "—"}</td>
+                    </tr>
+                `).join("");
+
+                const container = document.getElementById("confusion-container");
+                container.innerHTML = "";
+                for (const m of sorted) {
+                    const resp = await fetch(`${API}/metrics/confusion-matrix?model=${m.model}&year=2024`);
+                    const cm = await resp.json();
+                    const mat = cm.matrix || {};
+                    container.innerHTML += `
+                        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.5rem;margin-bottom:1.5rem">
+                            <h4 style="color:var(--accent);margin-bottom:0.75rem">${LABELS[m.model] || m.model} — 2024</h4>
+                            <table class="confusion">
+                                <thead><tr><th></th><th>Факт: гроза</th><th>Факт: нет</th></tr></thead>
+                                <tbody>
+                                    <tr><th>Прогноз: гроза</th>
+                                        <td class="cell-hit">${mat.hits ?? 0}</td>
+                                        <td class="cell-fa">${mat.false_alarms ?? 0}</td></tr>
+                                    <tr><th>Прогноз: нет</th>
+                                        <td class="cell-miss">${mat.misses ?? 0}</td>
+                                        <td class="cell-cn">${mat.correct_negatives ?? 0}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                }
+            } catch (e) { console.error(e); }
+        }
+        load();
+    </script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

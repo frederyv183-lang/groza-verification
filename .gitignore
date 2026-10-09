@@ -1,0 +1,101 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Секреты
+.env
+*.env
+.env.bak
+*.bak
+
+# Логи
+*.log
+.DS_Store
+.idea/
+.vscode/
+
+# Сырые данные (тяжёлые)
+data/raw/*
+!data/raw/.gitkeep
+
+# ⚠️ data/processed/ — НЕ игнорируем, БД нужна на Render
+
+# Модели
+models/*.pkl
+models/*.h5
+
+# Архивы
+*.zip
+
+# Временные / мусорные скрипты в корне
+patch.py
+patch_*.py
+check_*.py
+fix_*.py
+gr.py
+tune_*.py
+deploy_git.py
+deploy_prep.py
+data.txt
+*.docx
+
+# Сам этот скрипт не нужен в репо
+deploy_prep.py
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Секреты
+.env
+*.env
+.env.bak
+*.bak
+*.backup
+*.bak2
+
+# Логи
+*.log
+.DS_Store
+.idea/
+.vscode/
+
+# Сырые данные (тяжёлые)
+data/raw/*
+!data/raw/.gitkeep
+
+# ⚠️ data/processed/ — НЕ игнорируем, БД нужна на Render
+
+# Модели
+models/*.pkl
+models/*.h5
+
+# Архивы
+*.zip
+
+# Временные / мусорные скрипты в корне
+patch_*.py
+check_*.py
+fix_*.py
+gr.py
+tune_*.py
+deploy_git.py
+deploy_prep.py
+data.txt
+*.docx
+
+# Временные txt в корне (но не requirements.txt / runtime.txt — они .txt, но не в корне... 
+# а вообще давайте отдельно)
+/*.txt
+
+# Но runtime.txt и requirements.txt — .txt в корне, их НЕ игнорируем
+!requirements.txt
+!runtime.txt

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Метрики — {{ station }} / {{ model }}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        body { font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+               max-width: 1100px; margin: 2rem auto; padding: 0 1rem;
+               background: #fafafa; color: #222; }
+        h1 { font-size: 1.4rem; }
+        .meta { color: #666; font-size: 0.9rem; margin-bottom: 1.5rem; }
+        table { width: 100%; border-collapse: collapse; background: #fff;
+                box-shadow: 0 1px 3px rgba(0,0,0,.08); margin-bottom: 1.5rem; }
+        th, td { padding: 0.6rem 0.8rem; text-align: left;
+                 border-bottom: 1px solid #eee; font-size: 0.92rem; }
+        th { background: #f4f4f4; font-weight: 600; }
+        tr:hover { background: #f9f9f9; }
+        .value { font-family: Consolas, monospace; font-weight: 600; }
+        .good { color: #1a7f37; }
+        .bad  { color: #b42318; }
+        .formula { font-family: Consolas, monospace; color: #555;
+                   background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+        .confusion td { text-align: center; }
+        .legend { font-size: 0.85rem; color: #555; }
+    </style>
+</head>
+<body>
+    <h1>Метрики: {{ station }} — {{ model }}</h1>
+    <div class="meta">
+        Период: {{ period.start }} … {{ period.end }}<br>
+        Прогнозов: {{ n_forecasts }} (из них гроз: {{ n_forecasts_groz }}),
+        фактов гроз: {{ n_facts_groz }}
+    </div>
+
+    <h2>Матрица ошибок</h2>
+    <table class="confusion">
+        <thead>
+            <tr><th></th><th>Прогноз: гроза</th><th>Прогноз: нет</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Факт: гроза</th>
+                <td>{{ confusion.H }} (H)</td>
+                <td>{{ confusion.M }} (M)</td>
+            </tr>
+            <tr>
+                <th>Факт: нет</th>
+                <td>{{ confusion.F }} (F)</td>
+                <td>{{ confusion.C }} (C)</td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="legend">
+        H — Hits, M — Misses, F — False alarms, C — Correct negatives
+    </p>
+
+    <h2>Метрики качества</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Метрика</th>
+                <th>Значение</th>
+                <th>Формула</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td><b>{{ row.metric }}</b></td>
+                <td class="value
+                    {% if row.value >= 0.7 %}good{% elif row.value < 0.4 %}bad{% endif %}">
+                    {{ row.value }}
+                </td>
+                <td><span class="formula">{{ row.formula }}</span></td>
+                <td>{{ row.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

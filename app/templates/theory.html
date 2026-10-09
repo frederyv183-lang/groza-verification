@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Теория — Грозпроверка</title>
+    <link rel="stylesheet" href="/static/css/style.css?v=1791548216">
+    <style>
+        .theory { max-width: 900px; margin: 0 auto; padding: 2rem; line-height: 1.7; }
+        .theory h2 { color: var(--accent); margin-top: 2rem; margin-bottom: 1rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; }
+        .theory h3 { color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .theory p, .theory li { color: var(--text-secondary); margin-bottom: 0.75rem; }
+        .theory code { background: var(--bg-secondary); padding: 0.2rem 0.5rem; border-radius: 4px; font-family: 'Consolas', monospace; color: var(--accent); font-size: 0.9em; }
+        .formula { background: var(--bg-secondary); border-left: 4px solid var(--accent); padding: 1rem 1.5rem; margin: 1rem 0; font-family: 'Consolas', monospace; font-size: 1.05rem; color: var(--text-primary); border-radius: 4px; }
+        .theory ul { margin-left: 2rem; }
+        .metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.5rem; margin-bottom: 1rem; }
+        .metric-card h4 { color: var(--accent); margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+        <header class="main-header">
+        <nav class="nav">
+            <a href="/" class="nav-link">Главная</a>
+            <a href="/theory" class="nav-link active">Теория</a>
+            <a href="/conditions" class="nav-link">Условия</a>
+            <a href="/metrics-view" class="nav-link">Метрики</a>
+            <a href="/analytics" class="nav-link">Аналитика</a>
+            <a href="/docs" class="nav-link">API</a>
+            <div class="theme-switcher" title="Смена темы">
+                <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')" title="Тёмная">🌙</button>
+                <button class="theme-btn" data-theme="light" onclick="setTheme('light')" title="Светлая">☀️</button>
+                <button class="theme-btn" data-theme="contrast" onclick="setTheme('contrast')" title="Контрастная">◐</button>
+            </div>
+        </nav>
+    </header>
+    <main class="theory">
+        <h1>Теория прогноза гроз</h1>
+        <p>Методика оценки успешности прогноза грозы для аэропорта Домодедово (UUDD).</p>
+
+        <h2>1. Исходные данные</h2>
+        <ul>
+            <li><strong>METAR-архив</strong>: 126 180 сводок за 2020–2026, из них 1 834 с грозой (237 дней).</li>
+            <li><strong>ERA5</strong> (Copernicus CDS): 4 934 звудирования с T, q, z на уровнях 850, 700, 500 гПа.</li>
+            <li><strong>Станция</strong>: UUDD (Домодедово), 55.75°N, 37.5°E.</li>
+        </ul>
+
+        <h2>2. K-индекс Вайтинга</h2>
+        <div class="formula">K = (T<sub>850</sub> − T<sub>500</sub>) + Td<sub>850</sub> − (T<sub>700</sub> − Td<sub>700</sub>)</div>
+        <p><strong>Пороги:</strong> K &lt; 15 — нет гроз; K ≥ 20 — изолированные; K ≥ 25 — повсеместно; K ≥ 30 — сильные грозы.</p>
+        <p>Точка росы вычисляется из удельной влажности q:</p>
+        <div class="formula">e = q · p / (0.622 + 0.378·q)<br>Td = (243.5 · ln(e/6.112)) / (17.67 − ln(e/6.112))</div>
+
+        <h2>3. Метод Фауста</h2>
+        <div class="formula">T<sub>v</sub> = 0.5 · (T<sub>850</sub> + Td<sub>среднее</sub>)</div>
+        <p>Если T<sub>v</sub> &gt; 0 → прогноз грозы. Простой, но много ложных тревог.</p>
+
+        <h2>4. Комбинированный метод</h2>
+        <div class="formula">гроза = (K ≥ 22) И (T<sub>v</sub> &gt; 0)</div>
+        <p>Снижает ложные тревоги, сохраняя обнаружение.</p>
+
+        <h2>5. Метрики верификации</h2>
+        <div class="metric-card">
+            <h4>POD — Probability of Detection</h4>
+            <p><code>POD = H / (H + M)</code> — доля обнаруженных гроз</p>
+        </div>
+        <div class="metric-card">
+            <h4>FAR — False Alarm Ratio</h4>
+            <p><code>FAR = F / (H + F)</code> — доля ложных тревог</p>
+        </div>
+        <div class="metric-card">
+            <h4>CSI — Critical Success Index</h4>
+            <p><code>CSI = H / (H + M + F)</code> — баланс POD и FAR</p>
+        </div>
+        <div class="metric-card">
+            <h4>HK — критерий Пирса-Обухова</h4>
+            <p><code>HK = POD − POFD</code>, где <code>POFD = F / (F + C)</code></p>
+        </div>
+
+        <h2>6. Ограничения</h2>
+        <ul>
+            <li>ERA5 сглаживает профиль атмосферы (2×2 сетка).</li>
+            <li>Только 2 срока в сутки (00 и 12 UTC).</li>
+            <li>Td вычисляется из q, а не измеряется.</li>
+        </ul>
+
+        <h2>7. Рекомендации</h2>
+        <table class="models-table">
+            <thead><tr><th>Задача</th><th>Модель</th><th>Почему</th></tr></thead>
+            <tbody>
+                <tr><td>Авиация</td><td>Фауст</td><td>POD = 0.89</td></tr>
+                <tr><td>Баланс</td><td>K ≥ 25</td><td>CSI = 0.369</td></tr>
+                <tr><td>Энергетика, МЧС</td><td>K + Фауст</td><td>HK = 0.653</td></tr>
+                <tr><td>Базовая</td><td>K ≥ 22</td><td>POD = 0.81, FAR = 0.65</td></tr>
+            </tbody>
+        </table>
+    </main>
+    <footer class="main-footer"><p>Грозпроверка · 2020–2026</p></footer>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

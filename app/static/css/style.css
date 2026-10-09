@@ -1,0 +1,1314 @@
+/* ============================================================
+   Грозпроверка — стиль weather-msk
+   Тёмный фиолетово-градиентный · фиолетовые акценты
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg-deep: #0f0a1e;
+    --bg-primary: #1a1130;
+    --bg-card: #1f1538;
+    --bg-card-hover: #251a44;
+    --border: rgba(139, 92, 246, 0.15);
+    --border-hover: rgba(139, 92, 246, 0.4);
+    --text-primary: #f0ecff;
+    --text-secondary: #a89bc4;
+    --text-muted: #6b5f88;
+    --accent: #a78bfa;
+    --accent-bright: #c4b5fd;
+    --accent-deep: #7c3aed;
+    --purple-glow: rgba(167, 139, 250, 0.25);
+
+    --pod-color: #34d399;
+    --far-color: #f87171;
+    --csi-color: #60a5fa;
+    --hk-color: #c084fc;
+}
+
+body {
+    font-family: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg-deep);
+    background-image:
+        radial-gradient(ellipse at top left, rgba(124, 58, 237, 0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at bottom right, rgba(167, 139, 250, 0.12) 0%, transparent 55%),
+        radial-gradient(ellipse at center, rgba(192, 132, 252, 0.06) 0%, transparent 70%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+}
+
+/* === Шапка === */
+.main-header {
+    background: rgba(26, 17, 48, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.nav::before {
+    content: "☁";
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-right: 1rem;
+    filter: drop-shadow(0 0 8px var(--purple-glow));
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.55rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--text-primary);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.nav-link.active {
+    color: var(--accent-bright);
+    background: rgba(139, 92, 246, 0.15);
+    font-weight: 600;
+}
+
+/* === Контейнер === */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2.5rem;
+    flex: 1;
+    width: 100%;
+}
+
+h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+h1::before {
+    content: "☁ ";
+    color: var(--accent);
+    margin-right: 0.5rem;
+    filter: drop-shadow(0 0 12px var(--purple-glow));
+}
+
+h2 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+h2::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 1.1rem;
+    background: linear-gradient(180deg, var(--accent-bright), var(--accent-deep));
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.01em;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    font-size: 0.95rem;
+}
+
+.subtitle strong {
+    color: var(--accent-bright);
+    font-weight: 600;
+}
+
+/* === Карточки метрик === */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(124, 58, 237, 0.2);
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card h3 {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.card:nth-child(1) h3 { color: var(--pod-color); }
+.card:nth-child(2) h3 { color: var(--far-color); }
+.card:nth-child(3) h3 { color: var(--csi-color); }
+.card:nth-child(4) h3 { color: var(--hk-color); }
+
+.metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 0.25rem 0 0.75rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.card:nth-child(1) .metric-value { color: var(--pod-color); }
+.card:nth-child(2) .metric-value { color: var(--far-color); }
+.card:nth-child(3) .metric-value { color: var(--csi-color); }
+.card:nth-child(4) .metric-value { color: var(--hk-color); }
+
+.metric-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+}
+
+/* === Информационные блоки === */
+.info {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 1.75rem;
+    transition: border-color 0.3s;
+}
+
+.info:hover {
+    border-color: var(--border-hover);
+}
+
+/* === Таблицы моделей === */
+.models-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.models-table th,
+.models-table td {
+    padding: 0.85rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+}
+
+.models-table thead th {
+    background: rgba(139, 92, 246, 0.06);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+}
+
+.models-table tbody tr {
+    transition: background 0.15s;
+}
+
+.models-table tbody tr:hover {
+    background: rgba(139, 92, 246, 0.06);
+}
+
+.models-table tbody td:first-child {
+    text-align: left;
+}
+
+.models-table tbody td:first-child strong {
+    color: var(--accent-bright);
+    font-weight: 600;
+    display: block;
+    font-size: 0.9rem;
+}
+
+.models-table tbody td:first-child small {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-family: 'SF Mono', 'Consolas', monospace;
+}
+
+/* === Матрица ошибок === */
+.confusion {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.confusion th,
+.confusion td {
+    padding: 0.85rem 1rem;
+    text-align: center;
+    border: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+}
+
+.confusion thead th {
+    background: rgba(139, 92, 246, 0.06);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.confusion tbody th {
+    text-align: left;
+    background: rgba(139, 92, 246, 0.04);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.cell-hit  { background: rgba(52, 211, 153, 0.12);  color: var(--pod-color); font-weight: 700; }
+.cell-fa   { background: rgba(248, 113, 113, 0.12); color: var(--far-color); font-weight: 700; }
+.cell-miss { background: rgba(167, 139, 250, 0.12); color: var(--accent-bright); font-weight: 700; }
+.cell-cn   { background: rgba(107, 95, 136, 0.15);  color: var(--text-secondary); font-weight: 600; }
+
+/* === Футер === */
+.main-footer {
+    background: rgba(15, 10, 30, 0.8);
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+}
+
+/* === Аналитика === */
+.chart-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    transition: border-color 0.3s;
+}
+
+.chart-container:hover {
+    border-color: var(--border-hover);
+}
+
+.chart-container h3 {
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.model-selector,
+.year-selector {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.model-btn,
+.year-btn {
+    padding: 0.5rem 1rem;
+    background: rgba(139, 92, 246, 0.08);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.model-btn:hover,
+.year-btn:hover {
+    background: rgba(139, 92, 246, 0.15);
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+}
+
+.model-btn.active,
+.year-btn.active {
+    background: linear-gradient(135deg, var(--accent-deep), var(--accent));
+    border-color: var(--accent);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 20px var(--purple-glow);
+}
+
+.matrices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+}
+
+.matrix-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.matrix-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--accent-bright), var(--accent-deep));
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.matrix-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(124, 58, 237, 0.2);
+}
+
+.matrix-card:hover::before {
+    opacity: 1;
+}
+
+.matrix-card h4 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.matrix-card .confusion {
+    font-size: 0.85rem;
+}
+
+.matrix-card .confusion th,
+.matrix-card .confusion td {
+    padding: 0.55rem 0.6rem;
+}
+
+/* === Утилиты === */
+.cell-best  {
+    background: rgba(52, 211, 153, 0.2) !important;
+    color: var(--pod-color) !important;
+    font-weight: 700;
+}
+
+.cell-worst {
+    background: rgba(248, 113, 113, 0.15) !important;
+    color: var(--far-color) !important;
+    font-weight: 600;
+}
+
+a {
+    color: var(--accent-bright);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-color: var(--accent-deep);
+    text-underline-offset: 3px;
+}
+
+.js-plotly-plot .plotly .modebar {
+    display: none !important;
+}
+
+/* === Скроллбар === */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.3);
+    border-radius: 5px;
+    border: 2px solid var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 92, 246, 0.5);
+}
+
+/* === Адаптив === */
+@media (max-width: 768px) {
+    h1 { font-size: 1.75rem; }
+    .metric-value { font-size: 2rem; }
+    .container { padding: 1.5rem 1rem; }
+    .nav { gap: 0.1rem; }
+    .nav-link { font-size: 0.8rem; padding: 0.4rem 0.6rem; }
+    .info { padding: 1.25rem 1.25rem; }
+    .main-header { padding: 0.75rem 1rem; }
+}
+
+
+/* === Индикатор загрузки === */
+.loading-box {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-secondary);
+}
+
+.spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(167, 139, 250, 0.2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* === Подсказки и легенды === */
+.hint {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+}
+
+.badge-good {
+    background: rgba(52, 211, 153, 0.2);
+    color: var(--pod-color);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.badge-bad {
+    background: rgba(248, 113, 113, 0.2);
+    color: var(--far-color);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.legend-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.legend-dot {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: 5px;
+}
+
+.legend-item strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+/* === Матрица ошибок в аналитике === */
+.matrix-metrics {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.mm-item {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.mm-key {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    align-self: center;
+}
+
+.matrix-note {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin-top: 0.75rem;
+    text-align: center;
+}
+
+
+
+/* === Сезонные блоки === */
+.season-block {
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.season-block:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-hover);
+}
+
+.season-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1.25rem;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.season-winter .season-header { background: rgba(96, 165, 250, 0.15); }
+.season-spring .season-header { background: rgba(52, 211, 153, 0.15); }
+.season-summer .season-header { background: rgba(251, 191, 36, 0.15); }
+.season-autumn .season-header { background: rgba(248, 113, 113, 0.15); }
+
+.season-emoji { font-size: 1.3rem; }
+
+.season-name {
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.03em;
+}
+
+.season-months {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.season-prob {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    padding: 0.2rem 0.6rem;
+    background: rgba(139, 92, 246, 0.15);
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.season-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+}
+
+.season-section strong {
+    display: block;
+    color: var(--accent-bright);
+    font-size: 0.8rem;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.season-section ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.season-section li { margin-bottom: 0.15rem; }
+
+@media (max-width: 700px) {
+    .season-body { grid-template-columns: 1fr; }
+}
+
+/* === Таблицы условий === */
+.conditions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.conditions-table th,
+.conditions-table td {
+    padding: 0.75rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.conditions-table thead th {
+    background: rgba(139, 92, 246, 0.08);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+}
+
+.conditions-table td:first-child {
+    text-align: left;
+    color: var(--text-primary);
+}
+
+.conditions-table tbody tr:hover {
+    background: rgba(139, 92, 246, 0.05);
+}
+
+.conditions-table td:nth-child(2) { color: var(--text-muted); }
+.conditions-table td:nth-child(3) { color: var(--accent-bright); }
+.conditions-table td:nth-child(4) { color: #fbbf24; }
+.conditions-table td:nth-child(5) { color: #f87171; font-weight: 600; }
+
+
+/* ============================================================
+   ЛЕГЕНДА МЕТРИК — карточки
+   ============================================================ */
+.metrics-legend {
+    background: linear-gradient(180deg, rgba(26, 17, 48, 0.8), rgba(15, 10, 30, 0.6)) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 14px !important;
+    padding: 1.25rem 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.metrics-legend .legend-title {
+    display: block !important;
+    font-size: 0.7rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.12em !important;
+    color: var(--text-muted) !important;
+    margin-bottom: 1rem !important;
+    font-weight: 600 !important;
+}
+
+.metrics-legend .legend-grid-metrics {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+    width: 100% !important;
+}
+
+.metrics-legend .legend-metric {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.35rem !important;
+    padding: 1rem 1.1rem !important;
+    background: rgba(139, 92, 246, 0.06) !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--border) !important;
+    border-left-width: 4px !important;
+    min-width: 0 !important;
+}
+
+.metrics-legend .legend-metric:nth-child(1) { border-left-color: #34d399 !important; }
+.metrics-legend .legend-metric:nth-child(2) { border-left-color: #f87171 !important; }
+.metrics-legend .legend-metric:nth-child(3) { border-left-color: #60a5fa !important; }
+.metrics-legend .legend-metric:nth-child(4) { border-left-color: #c084fc !important; }
+
+.metrics-legend .lm-code {
+    display: block !important;
+    font-size: 1.15rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.06em !important;
+    line-height: 1.1 !important;
+}
+
+.metrics-legend .legend-metric:nth-child(1) .lm-code { color: #34d399 !important; }
+.metrics-legend .legend-metric:nth-child(2) .lm-code { color: #f87171 !important; }
+.metrics-legend .legend-metric:nth-child(3) .lm-code { color: #60a5fa !important; }
+.metrics-legend .legend-metric:nth-child(4) .lm-code { color: #c084fc !important; }
+
+.metrics-legend .lm-name {
+    display: block !important;
+    font-size: 0.75rem !important;
+    color: var(--text-secondary) !important;
+    line-height: 1.2 !important;
+    font-weight: 500 !important;
+}
+
+.metrics-legend .lm-desc {
+    display: block !important;
+    font-size: 0.75rem !important;
+    color: var(--text-muted) !important;
+    line-height: 1.35 !important;
+    margin-top: 0.15rem !important;
+}
+
+@media (max-width: 1000px) {
+    .metrics-legend .legend-grid-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 560px) {
+    .metrics-legend .legend-grid-metrics {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+/* ============================================================
+   СТРАНИЦА УСЛОВИЙ — карточки и сезоны
+   ============================================================ */
+
+/* --- Общий контейнер страницы --- */
+.conditions-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* --- Карточки «Локальные особенности» и «Синоптические ситуации» --- */
+.conditions-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+    gap: 1rem !important;
+    margin-top: 0.75rem !important;
+}
+
+.condition-card {
+    background: linear-gradient(180deg, rgba(26, 17, 48, 0.8), rgba(15, 10, 30, 0.5)) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 12px !important;
+    padding: 1.1rem 1.25rem !important;
+    transition: border-color 0.2s, transform 0.2s !important;
+    min-width: 0 !important;
+}
+
+.condition-card:hover {
+    border-color: var(--border-hover) !important;
+    transform: translateY(-2px) !important;
+}
+
+.condition-card .cc-title {
+    display: block !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    color: var(--accent-bright) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    margin-bottom: 0.6rem !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 1px solid var(--border) !important;
+}
+
+.condition-card .cc-content {
+    display: block !important;
+    font-size: 0.85rem !important;
+    color: var(--text-secondary) !important;
+    line-height: 1.55 !important;
+}
+
+/* --- Сезонные блоки --- */
+.season-block {
+    display: block !important;
+    border-radius: 14px !important;
+    border: 1px solid var(--border) !important;
+    margin-bottom: 1.25rem !important;
+    overflow: hidden !important;
+    background: rgba(26, 17, 48, 0.6) !important;
+    transition: border-color 0.2s !important;
+}
+
+.season-block:hover {
+    border-color: var(--border-hover) !important;
+}
+
+.season-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.85rem !important;
+    padding: 1rem 1.35rem !important;
+    flex-wrap: wrap !important;
+    border-bottom: 1px solid var(--border) !important;
+}
+
+.season-winter .season-header { background: linear-gradient(90deg, rgba(96,165,250,0.2), rgba(96,165,250,0.05)) !important; }
+.season-spring .season-header { background: linear-gradient(90deg, rgba(52,211,153,0.2), rgba(52,211,153,0.05)) !important; }
+.season-summer .season-header { background: linear-gradient(90deg, rgba(251,191,36,0.2), rgba(251,191,36,0.05)) !important; }
+.season-autumn .season-header { background: linear-gradient(90deg, rgba(248,113,113,0.2), rgba(248,113,113,0.05)) !important; }
+
+.season-header .season-emoji {
+    font-size: 1.5rem !important;
+    flex-shrink: 0 !important;
+    line-height: 1 !important;
+}
+
+.season-header .season-name {
+    font-weight: 800 !important;
+    font-size: 1.05rem !important;
+    color: var(--text-primary) !important;
+    letter-spacing: 0.02em !important;
+}
+
+.season-header .season-months {
+    font-size: 0.8rem !important;
+    color: var(--text-muted) !important;
+    padding: 0.15rem 0.6rem !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 10px !important;
+}
+
+.season-header .season-prob {
+    margin-left: auto !important;
+    font-size: 0.8rem !important;
+    color: var(--text-primary) !important;
+    padding: 0.35rem 0.85rem !important;
+    background: rgba(139, 92, 246, 0.25) !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+}
+
+.season-body {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1.5rem !important;
+    padding: 1.25rem 1.5rem !important;
+}
+
+.season-section {
+    min-width: 0 !important;
+}
+
+.season-section strong {
+    display: block !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    color: var(--accent-bright) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    margin-bottom: 0.65rem !important;
+}
+
+.season-section ul {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+.season-section li {
+    display: block !important;
+    font-size: 0.85rem !important;
+    color: var(--text-secondary) !important;
+    line-height: 1.5 !important;
+    padding: 0.35rem 0 0.35rem 1.25rem !important;
+    position: relative !important;
+    border-bottom: 1px dashed rgba(139, 92, 246, 0.1) !important;
+}
+
+.season-section li:last-child {
+    border-bottom: none !important;
+}
+
+.season-section li::before {
+    content: "▸" !important;
+    position: absolute !important;
+    left: 0.15rem !important;
+    color: var(--accent) !important;
+    font-size: 0.85rem !important;
+}
+
+@media (max-width: 700px) {
+    .season-body {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    .season-header .season-prob {
+        margin-left: 0 !important;
+        width: 100% !important;
+        text-align: center !important;
+    }
+}
+
+/* --- Таблицы условий --- */
+.conditions-table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    margin-top: 1rem !important;
+    font-size: 0.9rem !important;
+    background: rgba(26, 17, 48, 0.5) !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    border: 1px solid var(--border) !important;
+}
+
+.conditions-table th,
+.conditions-table td {
+    padding: 0.8rem 1rem !important;
+    text-align: center !important;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.1) !important;
+    vertical-align: middle !important;
+}
+
+.conditions-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+.conditions-table thead th {
+    background: rgba(139, 92, 246, 0.12) !important;
+    color: var(--text-secondary) !important;
+    font-weight: 700 !important;
+    font-size: 0.72rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    border-bottom: 2px solid rgba(139, 92, 246, 0.25) !important;
+}
+
+.conditions-table td:first-child {
+    text-align: left !important;
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+}
+
+.conditions-table tbody tr:hover {
+    background: rgba(139, 92, 246, 0.06) !important;
+}
+
+.conditions-table td:nth-child(2) { color: var(--text-muted) !important; }
+.conditions-table td:nth-child(3) { color: #34d399 !important; }
+.conditions-table td:nth-child(4) { color: #fbbf24 !important; }
+.conditions-table td:nth-child(5) { color: #f87171 !important; font-weight: 600 !important; }
+
+/* --- Hint-подсказки --- */
+.hint {
+    display: block !important;
+    color: var(--text-muted) !important;
+    font-size: 0.88rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1.25rem !important;
+    padding: 0.75rem 1rem !important;
+    background: rgba(139, 92, 246, 0.05) !important;
+    border-left: 3px solid var(--accent) !important;
+    border-radius: 0 8px 8px 0 !important;
+}
+
+
+/* ============================================================
+   ПЕРЕКЛЮЧАТЕЛЬ ТЕМ
+   ============================================================ */
+.theme-switcher {
+    display: flex;
+    gap: 0.25rem;
+    margin-left: auto;
+    padding: 0.25rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
+.theme-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    line-height: 1;
+}
+
+.theme-btn:hover {
+    background: rgba(139, 92, 246, 0.15);
+    color: var(--text-primary);
+}
+
+.theme-btn.active {
+    background: var(--accent-deep);
+    color: #fff;
+}
+
+
+/* ============================================================
+   СВЕТЛАЯ ТЕМА
+   ============================================================ */
+body.theme-light {
+    --bg-deep: #f4f2fa;
+    --bg-primary: #ece8f7;
+    --bg-card: #ffffff;
+    --bg-card-hover: #faf7ff;
+    --border: rgba(124, 58, 237, 0.18);
+    --border-hover: rgba(124, 58, 237, 0.45);
+    --text-primary: #1a1130;
+    --text-secondary: #4b3d68;
+    --text-muted: #7a6b97;
+    --accent: #7c3aed;
+    --accent-bright: #6d28d9;
+    --accent-deep: #5b21b6;
+    --purple-glow: rgba(124, 58, 237, 0.15);
+
+    --pod-color: #059669;
+    --far-color: #dc2626;
+    --csi-color: #2563eb;
+    --hk-color: #9333ea;
+
+    background: #f4f2fa;
+    color: var(--text-primary);
+}
+
+body.theme-light {
+    background-image:
+        radial-gradient(ellipse at top left, rgba(124, 58, 237, 0.08) 0%, transparent 55%),
+        radial-gradient(ellipse at bottom right, rgba(167, 139, 250, 0.08) 0%, transparent 55%);
+}
+
+body.theme-light .main-header {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+}
+
+body.theme-light .nav-link:hover {
+    background: rgba(124, 58, 237, 0.08);
+}
+
+body.theme-light .nav-link.active {
+    background: rgba(124, 58, 237, 0.12);
+}
+
+body.theme-light .metrics-legend,
+body.theme-light .info,
+body.theme-light .condition-card,
+body.theme-light .season-block,
+body.theme-light .matrix-card,
+body.theme-light .chart-container {
+    background: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.05);
+}
+
+body.theme-light .models-table thead th,
+body.theme-light .confusion thead th,
+body.theme-light .conditions-table thead th {
+    background: rgba(124, 58, 237, 0.08) !important;
+    color: var(--accent-bright) !important;
+}
+
+body.theme-light .condition-card .cc-title {
+    color: var(--accent-deep) !important;
+}
+
+body.theme-light .season-header {
+    color: var(--text-primary);
+}
+
+body.theme-light .season-winter .season-header {
+    background: linear-gradient(90deg, rgba(96,165,250,0.2), rgba(96,165,250,0.05)) !important;
+}
+body.theme-light .season-spring .season-header {
+    background: linear-gradient(90deg, rgba(52,211,153,0.2), rgba(52,211,153,0.05)) !important;
+}
+body.theme-light .season-summer .season-header {
+    background: linear-gradient(90deg, rgba(251,191,36,0.25), rgba(251,191,36,0.05)) !important;
+}
+body.theme-light .season-autumn .season-header {
+    background: linear-gradient(90deg, rgba(248,113,113,0.2), rgba(248,113,113,0.05)) !important;
+}
+
+body.theme-light .season-header .season-prob {
+    background: rgba(124, 58, 237, 0.15) !important;
+    color: var(--accent-deep) !important;
+}
+
+body.theme-light .cell-hit  { background: rgba(5,150,105,0.15) !important;  color: var(--pod-color) !important; }
+body.theme-light .cell-fa   { background: rgba(220,38,38,0.15) !important;  color: var(--far-color) !important; }
+body.theme-light .cell-miss { background: rgba(124,58,237,0.15) !important; color: var(--accent-bright) !important; }
+body.theme-light .cell-cn   { background: rgba(122,107,151,0.12) !important; color: var(--text-secondary) !important; }
+
+body.theme-light .hint {
+    background: rgba(124, 58, 237, 0.06) !important;
+    color: var(--text-secondary) !important;
+}
+
+body.theme-light .theme-switcher {
+    background: rgba(124, 58, 237, 0.08);
+}
+
+body.theme-light .season-section li {
+    border-bottom-color: rgba(124, 58, 237, 0.1) !important;
+}
+
+body.theme-light a {
+    color: var(--accent);
+}
+
+
+/* ============================================================
+   КОНТРАСТНАЯ ТЕМА
+   ============================================================ */
+body.theme-contrast {
+    --bg-deep: #000000;
+    --bg-primary: #0a0a0a;
+    --bg-card: #111111;
+    --bg-card-hover: #1a1a1a;
+    --border: rgba(255, 255, 0, 0.3);
+    --border-hover: rgba(255, 255, 0, 0.7);
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --text-muted: #b0b0b0;
+    --accent: #ffff00;
+    --accent-bright: #ffff66;
+    --accent-deep: #cccc00;
+    --purple-glow: rgba(255, 255, 0, 0.2);
+
+    --pod-color: #00ff88;
+    --far-color: #ff3366;
+    --csi-color: #00ccff;
+    --hk-color: #ff99ff;
+
+    background: #000;
+}
+
+body.theme-contrast .main-header {
+    background: #000;
+    border-bottom-color: #ffff00;
+}
+
+body.theme-contrast .metrics-legend,
+body.theme-contrast .info,
+body.theme-contrast .condition-card,
+body.theme-contrast .season-block,
+body.theme-contrast .matrix-card,
+body.theme-contrast .chart-container {
+    border-width: 2px !important;
+}
+
+body.theme-contrast .nav-link.active {
+    background: #ffff00;
+    color: #000 !important;
+}
+
+body.theme-contrast h1,
+body.theme-contrast h2,
+body.theme-contrast .condition-card .cc-title,
+body.theme-contrast .season-section strong {
+    color: #ffff00 !important;
+}
+
+body.theme-contrast .season-header .season-name {
+    color: #ffffff !important;
+}
+
+body.theme-contrast .season-header .season-prob {
+    background: #ffff00 !important;
+    color: #000 !important;
+}
+
+body.theme-contrast .metrics-legend .lm-code {
+    color: #ffff00 !important;
+}
+
+body.theme-contrast .metrics-legend .legend-metric {
+    border-color: #ffff00 !important;
+    border-left-width: 4px !important;
+}
+
+body.theme-contrast .metrics-legend .legend-metric:nth-child(1) { border-left-color: var(--pod-color) !important; }
+body.theme-contrast .metrics-legend .legend-metric:nth-child(2) { border-left-color: var(--far-color) !important; }
+body.theme-contrast .metrics-legend .legend-metric:nth-child(3) { border-left-color: var(--csi-color) !important; }
+body.theme-contrast .metrics-legend .legend-metric:nth-child(4) { border-left-color: var(--hk-color) !important; }
+
+body.theme-contrast .theme-switcher {
+    background: #111;
+    border-color: #ffff00;
+}
+
+body.theme-contrast a {
+    color: #ffff00;
+}
+
+body.theme-contrast .season-section li::before {
+    color: #ffff00 !important;
+}

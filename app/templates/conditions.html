@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Условия образования гроз — Грозпроверка</title>
+    <link rel="stylesheet" href="/static/css/style.css?v=1791548216">
+</head>
+<body>
+        <header class="main-header">
+        <nav class="nav">
+            <a href="/" class="nav-link">Главная</a>
+            <a href="/theory" class="nav-link">Теория</a>
+            <a href="/conditions" class="nav-link active">Условия</a>
+            <a href="/metrics-view" class="nav-link">Метрики</a>
+            <a href="/analytics" class="nav-link">Аналитика</a>
+            <a href="/docs" class="nav-link">API</a>
+            <div class="theme-switcher" title="Смена темы">
+                <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')" title="Тёмная">🌙</button>
+                <button class="theme-btn" data-theme="light" onclick="setTheme('light')" title="Светлая">☀️</button>
+                <button class="theme-btn" data-theme="contrast" onclick="setTheme('contrast')" title="Контрастная">◐</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Условия образования гроз</h1>
+        <p class="subtitle">
+            Локальные градации для Московского региона (UUDD, Домодедово) ·
+            сезонные особенности · пороговые значения индексов
+        </p>
+
+        <!-- Блок: локальные особенности -->
+        <section class="info">
+            <h2>📍 Локальные особенности региона</h2>
+            <p class="hint">
+                Московский регион — умеренно-континентальный климат.
+                Домодедово расположено в 40 км южнее Москвы, на слабохолмистой
+                равнине. Основные факторы: тёплое лето, достаточное увлажнение,
+                частые прохождения холодных фронтов.
+            </p>
+            <div class="conditions-grid">
+                <div class="condition-card">
+                    <div class="cc-title">География</div>
+                    <div class="cc-content">
+                        Координаты: 55.75°N, 37.5°E<br>
+                        Высота: ~180 м над уровнем моря<br>
+                        Рельеф: пологий, без орографических эффектов
+                    </div>
+                </div>
+                <div class="condition-card">
+                    <div class="cc-title">Климат</div>
+                    <div class="cc-content">
+                        Умеренно-континентальный<br>
+                        Годовое количество осадков: ~700 мм<br>
+                        Грозовой сезон: май — сентябрь
+                    </div>
+                </div>
+                <div class="condition-card">
+                    <div class="cc-title">Атмосферная циркуляция</div>
+                    <div class="cc-content">
+                        Западный перенос<br>
+                        Частые холодные фронты<br>
+                        Средиземноморские и атлантические циклоны
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Блок: сезонные градации -->
+        <section class="info">
+            <h2>🗓️ Сезонные градации гроз</h2>
+            <p class="hint">
+                Вероятность грозы сильно зависит от сезона. Ниже — средние
+                многолетние показатели по Домодедово (UUDD) за 2020–2026.
+            </p>
+
+            <!-- Зима -->
+            <div class="season-block season-winter">
+                <div class="season-header">
+                    <span class="season-emoji">❄️</span>
+                    <span class="season-name">Зима</span>
+                    <span class="season-months">декабрь–февраль</span>
+                    <span class="season-prob">вероятность грозы &lt; 1%</span>
+                </div>
+                <div class="season-body">
+                    <div class="season-section">
+                        <strong>Условия:</strong>
+                        <ul>
+                            <li>Грозы — исключительное явление</li>
+                            <li>Возможны только при аномально тёплых адвекциях (T₈₅₀ &gt; 0 °C)</li>
+                            <li>Чаще связаны с прохождением глубоких циклонов с юга</li>
+                        </ul>
+                    </div>
+                    <div class="season-section">
+                        <strong>Пороги индексов:</strong>
+                        <ul>
+                            <li>Ki ≥ 15 — редко</li>
+                            <li>VT ≥ 25 — редко</li>
+                            <li>CAPE &gt; 200 Дж/кг — аномалия</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Весна -->
+            <div class="season-block season-spring">
+                <div class="season-header">
+                    <span class="season-emoji">🌱</span>
+                    <span class="season-name">Весна</span>
+                    <span class="season-months">март–май</span>
+                    <span class="season-prob">вероятность грозы 15–30%</span>
+                </div>
+                <div class="season-body">
+                    <div class="season-section">
+                        <strong>Условия:</strong>
+                        <ul>
+                            <li>Апрель-май — начало грозового сезона</li>
+                            <li>Преобладают фронтальные грозы</li>
+                            <li>Первые внутримассовые — в конце мая</li>
+                            <li>Неустойчивость из-за контраста тёплой подстилающей и холодной воздушной массы</li>
+                        </ul>
+                    </div>
+                    <div class="season-section">
+                        <strong>Пороги индексов:</strong>
+                        <ul>
+                            <li>Ki ≥ 20 — грозы вероятны</li>
+                            <li>Ki ≥ 25 — изолированные грозы</li>
+                            <li>CAPE 400–1000 Дж/кг</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Лето -->
+            <div class="season-block season-summer">
+                <div class="season-header">
+                    <span class="season-emoji">☀️</span>
+                    <span class="season-name">Лето</span>
+                    <span class="season-months">июнь–август</span>
+                    <span class="season-prob">вероятность грозы 60–80%</span>
+                </div>
+                <div class="season-body">
+                    <div class="season-section">
+                        <strong>Условия:</strong>
+                        <ul>
+                            <li>Пик грозовой активности — июнь-июль</li>
+                            <li>Внутримассовые грозы — 2-я половина дня</li>
+                            <li>Фронтальные грозы — при прохождении холодных фронтов</li>
+                            <li>Возможны сильные грозы с градом и шквалами</li>
+                        </ul>
+                    </div>
+                    <div class="season-section">
+                        <strong>Пороги индексов:</strong>
+                        <ul>
+                            <li>Ki ≥ 25 — многочисленные грозы</li>
+                            <li>Ki ≥ 30 — сильные грозы</li>
+                            <li>CAPE 1000–2500 Дж/кг</li>
+                            <li>TT ≥ 48 — сильные грозы, град</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Осень -->
+            <div class="season-block season-autumn">
+                <div class="season-header">
+                    <span class="season-emoji">🍂</span>
+                    <span class="season-name">Осень</span>
+                    <span class="season-months">сентябрь–ноябрь</span>
+                    <span class="season-prob">вероятность грозы 5–20%</span>
+                </div>
+                <div class="season-body">
+                    <div class="season-section">
+                        <strong>Условия:</strong>
+                        <ul>
+                            <li>Резкое снижение активности в сентябре</li>
+                            <li>Октябрь-ноябрь — единичные фронтальные грозы</li>
+                            <li>Связаны с адвекцией тёплого воздуха с юга</li>
+                        </ul>
+                    </div>
+                    <div class="season-section">
+                        <strong>Пороги индексов:</strong>
+                        <ul>
+                            <li>Ki ≥ 20 — редко</li>
+                            <li>CAPE 200–800 Дж/кг</li>
+                            <li>Бейли — часто говорит «нет»</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Блок: градации по индексам -->
+        <section class="info">
+            <h2>📊 Градации индексов неустойчивости</h2>
+            <p class="hint">
+                Ниже — пороги, при которых в Московском регионе наблюдаются
+                грозы разной интенсивности. Основано на 126 180 METAR-сводок
+                за 2020–2026.
+            </p>
+
+            <table class="conditions-table">
+                <thead>
+                    <tr>
+                        <th>Индекс</th>
+                        <th>Нет гроз</th>
+                        <th>Изолированные</th>
+                        <th>Многочисленные</th>
+                        <th>Сильные грозы</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ki (Вайтинг)</strong></td>
+                        <td>&lt; 20</td>
+                        <td>20–25</td>
+                        <td>25–30</td>
+                        <td>&gt; 30</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VT (Vertical Totals)</strong></td>
+                        <td>&lt; 24</td>
+                        <td>24–28</td>
+                        <td>28–32</td>
+                        <td>&gt; 32</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CT (Cross Totals)</strong></td>
+                        <td>&lt; 18</td>
+                        <td>18–20</td>
+                        <td>20–23</td>
+                        <td>&gt; 23</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TT (Total Totals)</strong></td>
+                        <td>&lt; 44</td>
+                        <td>44–48</td>
+                        <td>48–52</td>
+                        <td>&gt; 52</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CAPE</strong></td>
+                        <td>&lt; 400 Дж/кг</td>
+                        <td>400–1000</td>
+                        <td>1000–2500</td>
+                        <td>&gt; 2500</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LI (Lifted Index)</strong></td>
+                        <td>&gt; 0</td>
+                        <td>0…−2</td>
+                        <td>−3…−5</td>
+                        <td>&lt; −6</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ΣD Лебедевой</strong></td>
+                        <td>&gt; 25 °C</td>
+                        <td>20–25</td>
+                        <td>16–20</td>
+                        <td>≤ 16</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Блок: типовые синоптические ситуации -->
+        <section class="info">
+            <h2>🌩️ Типовые синоптические ситуации</h2>
+            <div class="conditions-grid">
+                <div class="condition-card">
+                    <div class="cc-title">Холодный фронт летом</div>
+                    <div class="cc-content">
+                        Самая частая причина сильных гроз.
+                        Грозы — во второй половине дня.
+                        Возможен град, шквалы до 25 м/с.
+                    </div>
+                </div>
+                <div class="condition-card">
+                    <div class="cc-title">Внутримассовые грозы</div>
+                    <div class="cc-content">
+                        В размытом барическом поле.
+                        Развиваются после 12–14 часов.
+                        Локальные, непродолжительные (30–60 мин).
+                    </div>
+                </div>
+                <div class="condition-card">
+                    <div class="cc-title">Тёплый фронт ночью</div>
+                    <div class="cc-content">
+                        Редкий тип, но возможны грозы.
+                        Из-за радиационного охлаждения верхушек Cb.
+                        Чаще — в переходные сезоны.
+                    </div>
+                </div>
+                <div class="condition-card">
+                    <div class="cc-title">Фронт окклюзии</div>
+                    <div class="cc-content">
+                        Опасен градом и шквалами.
+                        Часто сопровождается мощными Cb.
+                        Осадки — ливневые, интенсивные.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Блок: рекомендации -->
+        <section class="info">
+            <h2>🎯 Рекомендации по прогнозированию</h2>
+            <table class="conditions-table">
+                <thead>
+                    <tr>
+                        <th>Условие</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ki ≥ 25 И VT ≥ 28</td>
+                        <td>Указывать <strong>TEMPO TS</strong> в TAF</td>
+                    </tr>
+                    <tr>
+                        <td>Ki 20–25, CAPE &lt; 1000</td>
+                        <td>Указывать <strong>PROB40 TS</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Бейли говорит «нет гроз»</td>
+                        <td>Понизить уверенность прогноза</td>
+                    </tr>
+                    <tr>
+                        <td>CAPE &gt; 2500 И TT &gt; 50</td>
+                        <td>Прогнозировать <strong>град и шквалы</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Холодный фронт + Ki ≥ 25</td>
+                        <td>Высокая вероятность сильной грозы</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer class="main-footer"><p>Грозпроверка · 2020–2026</p></footer>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

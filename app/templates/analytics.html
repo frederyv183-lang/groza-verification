@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аналитика — Грозпроверка</title>
+    <link rel="stylesheet" href="/static/css/style.css?v=1791548216">
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+</head>
+<body>
+        <header class="main-header">
+        <nav class="nav">
+            <a href="/" class="nav-link">Главная</a>
+            <a href="/theory" class="nav-link">Теория</a>
+            <a href="/conditions" class="nav-link">Условия</a>
+            <a href="/metrics-view" class="nav-link">Метрики</a>
+            <a href="/analytics" class="nav-link active">Аналитика</a>
+            <a href="/docs" class="nav-link">API</a>
+            <div class="theme-switcher" title="Смена темы">
+                <button class="theme-btn" data-theme="dark" onclick="setTheme('dark')" title="Тёмная">🌙</button>
+                <button class="theme-btn" data-theme="light" onclick="setTheme('light')" title="Светлая">☀️</button>
+                <button class="theme-btn" data-theme="contrast" onclick="setTheme('contrast')" title="Контрастная">◐</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Аналитика по годам</h1>
+        <p class="subtitle">Сравнение моделей прогноза гроз · 2020–2026 · UUDD (Домодедово)</p>
+
+        <!-- Индикатор загрузки -->
+        <div id="loading" class="loading-box">
+            <div class="spinner"></div>
+            <p>Загрузка данных аналитики... Первый раз может занять 5–10 сек.</p>
+        </div>
+
+        <div id="content" style="display:none">
+
+            <section class="info">
+                <h2>📈 Динамика метрик по годам</h2>
+                <p class="hint">
+                    Каждый график показывает динамику одной метрики по годам.
+                    Линии — модели. Цвет модели фиксирован.
+                    <strong>Чем выше POD и CSI, тем лучше. Чем ниже FAR — тем лучше.</strong>
+                </p>
+
+                <div class="chart-container">
+                    <h3>POD — Probability of Detection (доля обнаруженных гроз)</h3>
+                    <div id="chart-pod"></div>
+                </div>
+                <div class="chart-container">
+                    <h3>FAR — False Alarm Ratio (доля ложных тревог)</h3>
+                    <div id="chart-far"></div>
+                </div>
+                <div class="chart-container">
+                    <h3>CSI — Critical Success Index (баланс POD и FAR)</h3>
+                    <div id="chart-csi"></div>
+                </div>
+                <div class="chart-container">
+                    <h3>HK — Критерий Пирса-Обухова (общая успешность)</h3>
+                    <div id="chart-hk"></div>
+                </div>
+            </section>
+
+            <section class="info">
+                <h2>📋 Сводная таблица CSI</h2>
+                <p class="hint">
+                    <span class="badge-good">Зелёный</span> — лучший CSI года ·
+                    <span class="badge-bad">Красный</span> — худший CSI года
+                </p>
+                <div style="overflow-x:auto">
+                    <table class="models-table">
+                        <thead>
+                            <tr>
+                                <th>Модель</th>
+                                <th>2020</th><th>2021</th><th>2022</th><th>2023</th>
+                                <th>2024</th><th>2025</th><th>2026</th>
+                                <th>Среднее</th>
+                            </tr>
+                        </thead>
+                        <tbody id="summary-tbody">
+                            <tr><td colspan="9">Загрузка...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="info">
+                <h2>🎛️ Матрицы ошибок по годам</h2>
+                <p class="hint">
+                    Выберите модель — увидите матрицу ошибок для каждого года.
+                    <strong>Серый</strong> — попадания и правильные отрицания (хорошо).
+                    <strong>Оранжевый</strong> — ложные тревоги. <strong>Красный</strong> — пропуски.
+                </p>
+                <div class="model-selector" id="model-selector"></div>
+                <div class="matrices-grid" id="matrices-grid">
+                    <p>Выберите модель</p>
+                </div>
+            </section>
+
+            <section class="info">
+                <h2>ℹ️ Как читать графики</h2>
+                <div class="legend-grid">
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#34d399"></span>
+                        <div>
+                            <strong>POD</strong> — доля обнаруженных гроз. Чем выше, тем лучше.
+                            POD = 0.8 означает, что модель поймала 80% всех гроз.
+                        </div>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#f87171"></span>
+                        <div>
+                            <strong>FAR</strong> — доля ложных тревог. Чем ниже, тем лучше.
+                            FAR = 0.65 означает, что 65% предупреждений не подтвердились.
+                        </div>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#60a5fa"></span>
+                        <div>
+                            <strong>CSI</strong> — баланс между POD и FAR. Основная метрика.
+                            Максимум 1.0.
+                        </div>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background:#c084fc"></span>
+                        <div>
+                            <strong>HK</strong> — учитывает все элементы матрицы.
+                            От 0 (случайно) до 1 (идеально).
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="main-footer"><p>Грозпроверка · 2020–2026</p></footer>
+
+    <script src="/static/js/analytics.js?v=1791548216"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
